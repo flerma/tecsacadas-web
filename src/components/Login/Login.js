@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import api from '../../services/login-api.js'; 
 
-const Login = ({ onLogin }) => {
+const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [isUsernameTouched, setIsUsernameTouched] = useState(false);
+  const [isPasswordTouched, setIsPasswordTouched] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
@@ -12,11 +15,21 @@ const Login = ({ onLogin }) => {
     if (!username || !password) {
       setError('Por favor, preencha todos os campos');
     } else {
-      if (onLogin(username, password)) {
-        navigate('/dashboard');
-      } else {
-        setError('Usuário ou senha incorretos');
-      }
+      onLogin(username, password);
+    }
+  };
+
+  const onLogin = async (username, password) => {
+    try {
+      const response = await api.post('', { username: username, password: password });
+      if(response.data.hasAccess === true) {
+        navigate('/main');
+      };
+    } catch (error) {
+      console.log(error);
+      setError('Usuário ou senha incorretos')
+      setUsername('');
+      setPassword('');
     }
   };
 
@@ -29,14 +42,18 @@ const Login = ({ onLogin }) => {
           placeholder="Usuário"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
-          style={username ? styles.input : { ...styles.input, ...styles.error }}
+          onBlur={() => setIsUsernameTouched(true)}
+          onFocus={() => setError('')} // Clear error message on focus
+          style={(isUsernameTouched && !username) ? { ...styles.input, ...styles.error } : styles.input}
         />
         <input
           type="password"
           placeholder="Senha"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          style={password ? styles.input : { ...styles.input, ...styles.error }}
+          onBlur={() => setIsPasswordTouched(true)}
+          onFocus={() => setError('')} // Clear error message on focus
+          style={(isPasswordTouched && !password) ? { ...styles.input, ...styles.error } : styles.input}
         />
         <button type="submit" style={styles.button}>Entrar</button>
         {error && <p style={styles.errorMessage}>{error}</p>}

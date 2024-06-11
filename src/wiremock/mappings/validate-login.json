@@ -1,0 +1,18 @@
+{
+    "priority": 99,
+    "request": {
+        "urlPath": "/validate-login",
+        "method": "POST"
+    },
+    "response": {
+        "status": 200,
+        "headers": {
+            "Content-Type": "application/json"
+        },
+        "transformers": ["response-template"],
+        "jsonBody": 
+            {
+                "hasAccess": true
+            }
+    }
+}

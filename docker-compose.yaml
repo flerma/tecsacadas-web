@@ -1,0 +1,9 @@
+services:
+  wiremock:
+    image: wiremock/wiremock:latest
+    command: "--verbose --global-response-templating --no-request-journal --enable-stub-cors"
+    volumes:
+      - ./src/wiremock/__files:/home/wiremock/__files
+      - ./src/wiremock/mappings:/home/wiremock/mappings
+    ports:
+      - 8881:8080

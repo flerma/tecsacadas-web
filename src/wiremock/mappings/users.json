@@ -1,0 +1,37 @@
+{
+    "priority": 99,
+    "request": {
+        "urlPath": "/users",
+        "method": "GET"
+    },
+    "response": {
+        "status": 200,
+        "headers": {
+            "Content-Type": "application/json"
+        },
+        "transformers": ["response-template"],
+        "jsonBody": 
+            { 
+                "user": [
+                    {
+                        "id": 1,
+                        "name": "Fernando",
+                        "lastname": "Marchesano Lerma",
+                        "email": "fernando.lerma@gmail.com",
+                        "username": "fernando.lerma",
+                        "password": "123456",
+                        "role": "admin"
+                    },
+                    {
+                        "id": 2,
+                        "name": "Fernando",
+                        "lastname": "Marchesano Lerma",
+                        "email": "fernando.lerma@gmail.com",
+                        "username": "fernando.lerma",
+                        "password": "123456",
+                        "role": "admin"
+                    }
+                ]
+            }
+    }
+}
